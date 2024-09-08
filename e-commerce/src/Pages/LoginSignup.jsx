@@ -1,47 +1,25 @@
-import Header from "@/components/header";
-import { Toaster } from "@/components/ui/toaster";
-import { useBalancesStore, useObserveBalance } from "@/lib/stores/balances";
-import { useChainStore, usePollBlockHeight } from "@/lib/stores/chain";
-import { useClientStore } from "@/lib/stores/client";
-import { useNotifyTransactions, useWalletStore } from "@/lib/stores/wallet";
-import { ReactNode, useEffect, useMemo } from "react";
+import React from 'react'
+import './CSS/LoginSignup.css'
 
-export default function AsyncLayout({ children }: { children: ReactNode }) {
-  const wallet = useWalletStore();
-  const client = useClientStore();
-  const chain = useChainStore();
-  const balances = useBalancesStore();
-
-  usePollBlockHeight();
-  useObserveBalance();
-  useNotifyTransactions();
-
-  useEffect(() => {
-    client.start();
-  }, []);
-
-  useEffect(() => {
-    wallet.initializeWallet();
-    wallet.observeWalletChange();
-  }, []);
-
-  const loading = useMemo(
-    () => client.loading || balances.loading,
-    [client.loading, balances.loading],
-  );
-
+const LoginSignup = () => {
   return (
-    <>
-      <Header
-        loading={client.loading}
-        balance={balances.balances[wallet.wallet ?? ""]}
-        balanceLoading={loading}
-        wallet={wallet.wallet}
-        onConnectWallet={wallet.connectWallet}
-        blockHeight={chain.block?.height ?? "-"}
-      />
-      {children}
-      <Toaster />
-    </>
-  );
+    <div className='loginsignup'>
+      <div className="loginsignup-container">
+        <h1>Sign Up</h1>
+        <div className="loginsignup-fields">
+          <input type="text" placeholder='Your Name' />
+          <input type="text" placeholder='Email Address' />
+          <input type="text" placeholder='Password' />
+        </div>
+        <button>Continue</button>
+        <p className="loginsignup-login">Already have an account <span>Login here</span></p>
+        <div className="loginsignup-agree">
+          <input type="checkbox" name="" id="" />
+          <p>By continuing, i agree to the terms of use & privacy policy.</p>
+        </div>
+      </div>
+    </div>
+  )
 }
+
+export default LoginSignup
