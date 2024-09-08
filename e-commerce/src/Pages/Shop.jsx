@@ -1,24 +1,20 @@
-"use client";
-import { Faucet } from "@/components/faucet";
-import { useFaucet } from "@/lib/stores/balances";
-import { useWalletStore } from "@/lib/stores/wallet";
+import React from 'react'
+import Hero from '../Components/Hero/Hero'
+import Popular from '../Components/Popular/Popular'
+import Offers from '../Components/Offers/Offers'
+import NewCollections from '../Components/NewCollections/NewCollections'
+import NewsLetter from '../Components/NewsLetter/NewsLetter'
 
-export default function Home() {
-  const wallet = useWalletStore();
-  const drip = useFaucet();
-
+const Shop = () => {
   return (
-    <div className="mx-auto -mt-32 h-full pt-16">
-      <div className="flex h-full w-full items-center justify-center pt-16">
-        <div className="flex basis-4/12 flex-col items-center justify-center 2xl:basis-3/12">
-          <Faucet
-            wallet={wallet.wallet}
-            onConnectWallet={wallet.connectWallet}
-            onDrip={drip}
-            loading={false}
-          />
-        </div>
-      </div>
+    <div>
+      <Hero />
+      <Popular />
+      <Offers />
+      <NewCollections />
+      <NewsLetter />
     </div>
-  );
+  )
 }
+
+export default Shop
