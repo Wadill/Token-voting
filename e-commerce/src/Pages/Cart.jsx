@@ -1,5 +1,12 @@
-import dynamic from "next/dynamic";
+import React from 'react'
+import CartItems from '../Components/CartItems/CartItems'
 
-export default dynamic(() => import("./async-layout"), {
-  ssr: false,
-});
+const Cart = () => {
+  return (
+    <div>
+      <CartItems />
+    </div>
+  )
+}
+
+export default Cart
