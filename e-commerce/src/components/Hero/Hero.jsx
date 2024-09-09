@@ -1,30 +1,32 @@
-"use client"
+import React from 'react'
+import './Hero.css'
+import hand_icon from '../Assets/hand_icon.png'
+import arrow_icon from '../Assets/arrow.png'
+import hero_image from '../Assets/hero_image.png'
 
-import * as React from "react"
-import * as TooltipPrimitive from "@radix-ui/react-tooltip"
+const Hero = () => {
+  return (
+    <div className='hero'>
+      <div className="hero-left">
+        <h2>NEW ARRIVALS ONLY</h2>
+        <div>
+            <div className="hero-hand-icon">
+                <p>new</p>
+                <img src={hand_icon} alt="" />
+            </div>
+            <p>collections</p>
+            <p>for everyone</p>
+        </div>
+        <div className="hero-latest-btn">
+            <div>Latest Collection</div>
+            <img src={arrow_icon} alt="" />
+        </div>
+      </div>
+      <div className="hero-right">
+        <img src={hero_image} alt="" />
+      </div>
+    </div>
+  )
+}
 
-import { cn } from "@/lib/utils"
-
-const TooltipProvider = TooltipPrimitive.Provider
-
-const Tooltip = TooltipPrimitive.Root
-
-const TooltipTrigger = TooltipPrimitive.Trigger
-
-const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, ...props }, ref) => (
-  <TooltipPrimitive.Content
-    ref={ref}
-    sideOffset={sideOffset}
-    className={cn(
-      "z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-      className
-    )}
-    {...props}
-  />
-))
-TooltipContent.displayName = TooltipPrimitive.Content.displayName
-
-export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider }
+export default Hero
