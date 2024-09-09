@@ -1,25 +1,19 @@
-import * as React from "react"
+import React from 'react'
+import './DescriptionBox.css'
 
-import { cn } from "@/lib/utils"
+const DescriptionBox = () => {
+  return (
+    <div className='descriptionbox'>
+      <div className="descriptionbox-navigator">
+        <div className="description-nav-box">Description</div>
+        <div className="description-nav-box fade">Reviews (122)</div>
+      </div>
+      <div className="descriptionbox-description">
+        <p>Text</p>
+        <p>Text 2</p>
+      </div>
+    </div>
+  )
+}
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
-
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
-    return (
-      <input
-        type={type}
-        className={cn(
-          "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-          className
-        )}
-        ref={ref}
-        {...props}
-      />
-    )
-  }
-)
-Input.displayName = "Input"
-
-export { Input }
+export default DescriptionBox
