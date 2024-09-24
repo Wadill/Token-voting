@@ -1,137 +1,52 @@
-# Protokit starter-kit
+# What it does
+FluidShop is a decentralized application (dApp) that allows users to shop with cryptocurrency in a secure and private manner. Leveraging Superfluid’s technology, FluidShop provides a seamless shopping experience where users can make payments with crypto streams, protecting their financial data and ensuring complete anonymity. This decentralized approach enhances privacy while still offering the convenience of online shopping.
 
-This repository is a monorepo aimed at kickstarting application chain development using the Protokit framework.
 
-## Quick start
 
-The monorepo contains 1 package and 1 app:
+# The problem it solves
+Traditional e-commerce platforms often require users to provide sensitive personal and financial information, making them vulnerable to data breaches and identity theft. FluidShop eliminates this concern by decentralizing the shopping process and using crypto payments, ensuring that no personal or financial data is shared with third parties. Additionally, it addresses the issue of complex payment structures by utilizing Superfluid’s real-time token streaming for efficient and automated payments.
 
-- `packages/chain` contains everything related to your app-chain
-- `apps/web` contains a demo UI that connects to your locally hosted app-chain sequencer
 
-**Prerequisites:**
 
-- Node.js `v18`
-- pnpm
-- nvm
+# Challenges I ran into
+Implementing Superfluid’s token streaming mechanism for real-time payments was challenging, especially when dealing with multiple transactions and managing user flows.
 
-For running with persistance / deploying on a server
-- docker `>= 24.0`
-- docker-compose `>= 2.22.0`
+Ensuring that the user interface remained intuitive while handling decentralized crypto transactions and wallet connections.
 
-## Setup
+Handling privacy features without sacrificing the usability of the platform.
 
-```zsh
-git clone https://github.com/proto-kit/starter-kit my-chain
-cd my-chain
 
-# ensures you have the right node.js version
-nvm use
-pnpm install
-```
 
-## Running
+# Technologies I used
+Frontend: React for the user interface, React Router for smooth navigation.
 
-### Environments
+Crypto Payments: Superfluid protocol for real-time token streams.
 
-The starter-kit offers different environments to run you appchain.
-You can use those environments to configure the mode of operation for your appchain depending on which stage of development you are in.
+Security: Built with a focus on decentralized and secure transactions using cryptocurrency.
 
-The starter kit comes with a set of pre-configured environments:
-- `inmemory`: Runs everything in-memory without persisting the data. Useful for early stages of runtime development.
-- `development`: Runs the sequencer locally and persists all state in databases running in docker. 
-- `sovereign`: Runs your appchain fully in docker (except the UI) for testnet deployments without settlement.
+Dev Tools: Testing with Jest, and React-Scripts for build and deployment.
 
-Every command you execute should follow this pattern:
 
-`pnpm env:<environment> <command>`
 
-This makes sure that everything is set correctly and our tooling knows which environment you want to use.
+# How we built it
+FluidShop was built with React for the frontend, utilizing React Router for navigation between different sections of the shop. Superfluid’s protocol was integrated to handle real-time crypto payments, allowing users to stream payments for products in a decentralized and secure way. The “connect to wallet” functionality enables users to link their crypto wallets and make purchases without revealing personal information. We also focused heavily on testing to ensure the app is secure and scalable.
 
-### Running in-memory
 
-```zsh
-# starts both UI and sequencer locally
-pnpm env:inmemory dev
 
-# starts UI only
-pnpm env:inmemory dev --filter web
-# starts sequencer only
-pnpm env:inmemory dev --filter chain
-```
+# What we learned
+Gained valuable insights into implementing decentralized finance (DeFi) solutions within e-commerce.
 
-> Be aware, the dev command will automatically restart your application when your sources change. 
-> If you don't want that, you can alternatively use `pnpm run build` and `pnpm run start`
+Learned how to efficiently handle real-time crypto payments using Superfluid and how to integrate wallet connections securely.
 
-Navigate to `localhost:3000` to see the example UI, or to `localhost:8080/graphql` to see the GQL interface of the locally running sequencer.
+Enhanced our knowledge of privacy-first solutions in decentralized applications and how to build intuitive e-commerce platforms using crypto.
 
-### Running tests
-```zsh
-# run and watch tests for the `chain` package
-pnpm run test --filter=chain -- --watchAll
-```
 
-### Running with persistence
 
-```zsh
-# start databases
-pnpm env:development docker:up -d
-# migrate schema to database
-pnpm env:development migrate
+# What's next for fluidShop
+Complete the integration of more privacy-preserving features such as zero-knowledge proofs to enhance user anonymity.
 
-# build & start sequencer
-pnpm build --filter=chain
-pnpm env:development start --filter=chain
+Expand the platform to include more crypto payment options and support for multiple cryptocurrencies.
 
-# Watch sequencer for local filesystem changes
-# Be aware: Flags like --prune won't work with 'dev'
-pnpm env:development dev --filter=chain
+Partner with decentralized marketplaces and product suppliers to grow the catalog of available products.
 
-# Start the UI
-pnpm env:development dev --filter web
-```
-
-### Deploying to a server
-
-When deploying to a server, you should push your code along with your forked starter-kit to some repository, 
-then clone it on your remote server and execute it.
-
-```zsh
-# start every component with docker
-pnpm env:sovereign docker:up -d
-```
-
-#### Configuration
-
-Go to `docker/proxy/Caddyfile` and replace the `*` matcher with your domain.
-```
-yourdomain.com {
-    ...
-}
-```
-
-In most cases, you will need to change the `NEXT_PUBLIC_PROTOKIT_GRAPHQL_URL` property in the `.env` file to the domain your graphql endpoint is running in.
-By default, the graphql endpoint is running on the same domain as your UI with the `/graphql` suffix.
-
-#### Running sovereign chain locally
-
-The caddy reverse-proxy automatically uses https for all connections, use this guide to remove certificate errors when accessing localhost sites
-
-<https://caddyserver.com/docs/running#local-https-with-docker>
-
-## CLI Options
-
-- `logLevel`: Overrides the loglevel used. Also configurable via the `PROTOKIT_LOG_LEVEL` environment variable.
-- `pruneOnStartup`: If set, prunes the database before startup, so that your chain is starting from a clean, genesis state. Alias for environment variable `PROTOKIT_PRUNE_ON_STARTUP`
-
-In order to pass in those CLI option, add it at the end of your command like this
-
-`pnpm env:inmemory dev --filter chain -- --logLevel DEBUG --pruneOnStartup`
-
-### Building the framework from source
-
-1. Make sure the framework is located under ../framework from the starter-kit's location
-2. Adapt your starter-kit's package.json to use the file:// references to framework
-3. Go into the framework folder, and build a docker image containing the sources with `docker build -f ./packages/deployment/docker/development-base/Dockerfile -t protokit-base .`
-
-4. Comment out the first line of docker/base/Dockerfile to use protokit-base
+Introduce loyalty rewards using token streams where users can receive bonuses for regular shopping through FluidShop.
