@@ -1,5 +1,5 @@
 {
-  "name": "zktree-vote",
+  "name": "Token-voting",
   "version": "1.0.0",
   "description": "Anonymous voting on Ethereum blockchain using zero knowledge proof",
   "scripts": {
@@ -9,15 +9,12 @@
     "deploy": "hardhat run --network localhost scripts/deploy.ts"
   },
   "repository": {
-    "type": "git",
-    "url": "git+https://github.com/TheBojda/zktree-vote.git"
+    "type": "git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TheBojda/zktree-vote/issues"
   },
-  "homepage": "https://github.com/TheBojda/zktree-vote#readme",
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "bootstrap": "^5.2.3",
