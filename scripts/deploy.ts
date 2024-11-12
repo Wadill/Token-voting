@@ -1,31 +1,35 @@
-// We require the Hardhat Runtime Environment explicitly here. This is optional
-// but useful for running the script in a standalone fashion through `node <script>`.
-//
-// When running the script with `npx hardhat run <script>` you'll find the Hardhat
-// Runtime Environment's members available in the global scope.
-import { ethers, run } from "hardhat";
+import * as fs from 'fs'
+import { ethers } from "hardhat";
+import { mimcSpongecontract } from 'circomlibjs'
+
+const SEED = "mimcsponge";
+const TREE_LEVELS = 20;
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
+    const signers = await ethers.getSigners()
+    const MiMCSponge = new ethers.ContractFactory(mimcSpongecontract.abi, mimcSpongecontract.createCode(SEED, 220), signers[0])
+    const mimcsponge = await MiMCSponge.deploy()
+    console.log(`MiMC sponge hasher address: ${mimcsponge.address}`)
 
-  console.log("Deploying contracts with the account:", deployer.address);
+    const Verifier = await ethers.getContractFactory("Verifier");
+    const verifier = await Verifier.deploy();
+    console.log(`Verifier address: ${verifier.address}`)
 
-  console.log("Account balance:", (await deployer.getBalance()).toString());
+    const ZKTreeVote = await ethers.getContractFactory("ZKTreeVote");
+    const zktreevote = await ZKTreeVote.deploy(TREE_LEVELS, mimcsponge.address, verifier.address, 4);
+    console.log(`ZKTreeVote address: ${zktreevote.address}`)
 
-  // make sure the contract is  compiled
-  await run("compile");
+    // add the 2nd hardhat account as a validator
+    await zktreevote.registerValidator(signers[1].address)
 
-  // We get the contract to deploy
-  const VerifierContract = await ethers.getContractFactory("VoteEvenOrOdd");
-
-  const verifier = await VerifierContract.deploy();
-
-  console.log("VoteEvenOrOdd deployed to:", verifier.address);
+    fs.writeFileSync("static/contracts.json", JSON.stringify({
+        mimc: mimcsponge.address,
+        verifier: verifier.address,
+        zktreevote: zktreevote.address
+    }))
 }
 
-// We recommend this pattern to be able to use async/await everywhere
-// and properly handle errors.
 main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
+    console.error(error);
+    process.exitCode = 1;
 });

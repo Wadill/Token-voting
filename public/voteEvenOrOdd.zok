@@ -1,3 +1,0 @@
-def main(private u8 x) -> u8:
-    u8 v = x % 2
-    return v
